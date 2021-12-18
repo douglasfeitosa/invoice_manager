@@ -24,7 +24,11 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+gem "warden", "~> 1.2"
+
 group :development do
+  gem "better_errors", "~> 2.9"
+  gem "binding_of_caller", "~> 1.0"
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
@@ -44,6 +48,7 @@ end
 
 group :test do
   gem 'database_cleaner-active_record', '~> 2.0'
+  gem "rails-controller-testing", "~> 1.0"
   gem 'shoulda-matchers', '~> 5.0'
   gem 'simplecov', '~> 0.21.2', require: false
 end
