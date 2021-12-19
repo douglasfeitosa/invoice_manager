@@ -58,4 +58,24 @@ RSpec.describe '/sessions', type: :request do
       end
     end
   end
+
+  describe 'DELETE /sessions' do
+    context 'when already logged in' do
+      before do
+        login_as user
+
+        delete sessions_path
+
+        follow_redirect!
+      end
+
+      it 'expects to render template new' do
+        expect(response).to render_template('application/index')
+      end
+
+      it 'expects to have message' do
+        expect(response.body).to include('Logged out!')
+      end
+    end
+  end
 end
