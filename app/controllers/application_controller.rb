@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
     warden.user
   end
 
-  def authenticate
-    warden.authenticate
+  def authenticate!
+    warden.authenticate!
   end
 
   def warden
