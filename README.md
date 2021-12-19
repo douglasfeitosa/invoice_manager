@@ -10,6 +10,7 @@ In order to run the project, you need:
   * `2.6.0`
 
 * System dependencies
+  * `Yarn` see more https://yarnpkg.com/en/docs/install
   * `Postgresql`
   * `Redis`
 
@@ -20,6 +21,8 @@ In order to run the project, you need:
     * Replace values in `SMTP_USERNAME` and `SMTP_PASSWORD`
   * You need allow apps to your account and do not have 2 factor authentication
     * See more `https://myaccount.google.com/lesssecureapps`
+  * Run `bundle exec webpacker:install`
+  * Run `yarn install --check-files`
   
 * Database creation
   * `bundle exec rails db:setup`

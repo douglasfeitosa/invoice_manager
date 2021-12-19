@@ -61,6 +61,22 @@ RSpec.describe '/internal/invoices', type: :request do
       end
     end
 
+    context 'with downloading pdf' do
+      before do
+        get internal_invoice_url(invoice, format: :pdf)
+
+        @analysis = PDF::Inspector::Text.analyze response.body
+      end
+
+      it 'renders a successful response' do
+        expect(response).to be_successful
+      end
+
+      it 'expects downloaded PDF with invoice number' do
+        expect(@analysis.strings.join).to include invoice.number
+      end
+    end
+
     context 'with an invoice from another user' do
       let(:invoice_2) { create(:invoice) }
 

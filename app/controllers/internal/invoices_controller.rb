@@ -9,6 +9,14 @@ module Internal
 
       if response.status
         @invoice = response.payload
+
+        respond_to do |format|
+          format.html { render :show }
+          format.pdf do
+            render pdf: 'invoice.pdf', layout: "application.pdf.erb"
+          end
+        end
+
       else
         redirect_to internal_invoices_path, alert: response.message
       end

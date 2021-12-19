@@ -1,5 +1,3 @@
-<p><%= notice %></p>
-
 <p>
   <strong>Number:</strong>
   <%= @invoice.number %>
@@ -29,7 +27,3 @@
   <strong>Emails:</strong>
   <%= @invoice.emails %>
 </p>
-
-<%= link_to 'Download', internal_invoice_path(@invoice, format: :pdf), target: '_blank' %> |
-<%= link_to 'Edit', edit_internal_invoice_path(@invoice) %> |
-<%= link_to 'Back', internal_invoices_path %>
