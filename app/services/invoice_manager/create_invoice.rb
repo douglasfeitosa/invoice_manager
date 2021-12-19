@@ -9,6 +9,8 @@ module InvoiceManager
       @invoice = build_invoice
 
       if @invoice.save
+        send_email
+
         respond_with(true, PAYLOAD => @invoice, MESSAGE => 'Invoice sent to informed emails.')
       else
         respond_with(false, PAYLOAD => @invoice)
@@ -19,6 +21,10 @@ module InvoiceManager
 
     def build_invoice
       @user.invoices.build(@attrs)
+    end
+
+    def send_email
+      SendInvoice.call(@invoice)
     end
   end
 end

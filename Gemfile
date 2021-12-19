@@ -23,10 +23,10 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
-
 gem "warden", "~> 1.2"
-
 gem "jquery-rails", "~> 4.4"
+gem "sidekiq", "~> 6.3"
+gem "dotenv-rails", "~> 2.7"
 
 group :development do
   gem "better_errors", "~> 2.9"
@@ -57,5 +57,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-

@@ -1,4 +1,5 @@
 class ApplicationJob < ActiveJob::Base
+  config.active_job.queue_adapter = :sidekiq
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked
 

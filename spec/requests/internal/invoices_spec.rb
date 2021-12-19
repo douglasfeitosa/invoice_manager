@@ -181,6 +181,13 @@ RSpec.describe '/internal/invoices', type: :request do
 
         expect(response.body).to include('Invoice sent to informed emails.')
       end
+
+      it 'sends an email' do
+        ActiveJob::Base.queue_adapter = :test
+
+        expect { post internal_invoices_url, params: { invoice: valid_attributes }
+        }.to have_enqueued_job.on_queue('mailers')
+      end
     end
 
     context 'with invalid parameters' do

@@ -1,0 +1,28 @@
+<p>New Invoice</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @invoice.number %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @invoice.date %>
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @invoice.company %>
+</p>
+
+<p>
+  <strong>Billing for:</strong>
+  <%= @invoice.billing_for %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @invoice.total %>
+</p>
+
+<%= link_to 'View Invoice', internal_invoice_url(@invoice) %>
