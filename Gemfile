@@ -26,6 +26,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem "warden", "~> 1.2"
 
+gem "jquery-rails", "~> 4.4"
+
 group :development do
   gem "better_errors", "~> 2.9"
   gem "binding_of_caller", "~> 1.0"
@@ -55,3 +57,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+

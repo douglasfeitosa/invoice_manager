@@ -12,6 +12,12 @@ class SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    warden.logout
+
+    redirect_to root_url, notice: "Logged out!"
+  end
+
   private
 
   def redirect_to_welcome
