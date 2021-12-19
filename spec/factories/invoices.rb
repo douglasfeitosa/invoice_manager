@@ -3,7 +3,7 @@ FactoryBot.define do
     user { create(:user) }
     number { '123456789' }
     date { DateTime.new(2021, 12, 18) }
-    company { 'Apple' }
+    company { 'Husky' }
     billing_for { 'DFG' }
     total { '9.99' }
     emails { "douglasfeitosa@outlook.com\n" }
