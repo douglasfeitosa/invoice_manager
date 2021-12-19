@@ -1,4 +1,4 @@
- require 'rails_helper'
+require 'rails_helper'
 
 RSpec.describe '/internal/invoices', type: :request do
   include Warden::Test::Helpers
@@ -199,31 +199,67 @@ RSpec.describe '/internal/invoices', type: :request do
   end
 
   describe 'PATCH /update' do
-    context 'with valid parameters' do
-      let(:new_attributes) { { number: '123456789' } }
+    context 'with a valid invoice for user' do
+      context 'with valid parameters' do
+        let(:new_attributes) { { number: '123456789' } }
 
-      before do
-        patch internal_invoice_url(invoice), params: { invoice: new_attributes }
+        before do
+          patch internal_invoice_url(invoice), params: { invoice: new_attributes }
 
-        invoice.reload
+          invoice.reload
+        end
+
+        it 'redirects to the invoice' do
+          expect(response).to redirect_to(internal_invoice_url(invoice))
+        end
+
+        it 'renders template show' do
+          follow_redirect!
+
+          expect(response).to render_template('internal/invoices/show')
+        end
       end
 
-      it 'redirects to the invoice' do
-        expect(response).to redirect_to(internal_invoice_url(invoice))
-      end
+      context 'with invalid parameters' do
+        it 'renders template edit' do
+          patch internal_invoice_url(invoice), params: { invoice: invalid_attributes }
 
-      it 'renders template show' do
-        follow_redirect!
-
-        expect(response).to render_template('internal/invoices/show')
+          expect(response).to render_template('internal/invoices/edit')
+        end
       end
     end
 
-    context 'with invalid parameters' do
-      it 'renders template edit' do
-        patch internal_invoice_url(invoice), params: { invoice: invalid_attributes }
+    context 'with an invoice from another user' do
+      let(:invoice_2) { create(:invoice) }
 
-        expect(response).to render_template('internal/invoices/edit')
+      before do
+        patch internal_invoice_url(invoice_2), params: { invoice: { number: '123456789' } }
+      end
+
+      it 'redirects to the index page' do
+        expect(response).to redirect_to(internal_invoices_url)
+      end
+
+      it 'expects to have an error message' do
+        follow_redirect!
+
+        expect(response.body).to include('Invoice not found.')
+      end
+    end
+
+    context 'with an invalid invoice' do
+      before do
+        patch internal_invoice_path(1000), params: { invoice: { number: '123456789' } }
+      end
+
+      it 'redirects to the index page' do
+        expect(response).to redirect_to(internal_invoices_url)
+      end
+
+      it 'expects to have an error message' do
+        follow_redirect!
+
+        expect(response.body).to include('Invoice not found.')
       end
     end
   end

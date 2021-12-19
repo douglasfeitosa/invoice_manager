@@ -14,6 +14,8 @@ module InvoiceManager
       else
         respond_with(false, PAYLOAD => @invoice)
       end
+    rescue ActiveRecord::RecordNotFound
+      respond_with(false, MESSAGE => "Invoice not found.")
     end
 
     private

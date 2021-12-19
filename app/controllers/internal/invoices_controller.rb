@@ -45,10 +45,12 @@ module Internal
 
       if response.status
         redirect_to internal_invoice_path(response.payload), notice: response.message
-      else
+      elsif response.payload
         @invoice = response.payload
 
         render :edit, status: :unprocessable_entity
+      else
+        redirect_to internal_invoices_path, alert: response.message
       end
     end
 
