@@ -28,3 +28,4 @@
 
 # Ignore simplecov coverage folder
 /coverage
+.env

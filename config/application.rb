@@ -19,6 +19,8 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+Dotenv::Railtie.load
+
 module InvoiceManager
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -31,5 +33,14 @@ module InvoiceManager
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.action_mailer.smtp_settings = {
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :user_name            => ENV['SMTP_USERNAME'],
+      :password             => ENV['SMTP_PASSWORD'],
+      :authentication       => "plain",
+      :enable_starttls_auto => true
+    }
   end
 end
