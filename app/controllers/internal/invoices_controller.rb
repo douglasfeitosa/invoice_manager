@@ -1,12 +1,17 @@
 module Internal
-  class InvoicesController < ApplicationController
-    before_action :set_invoice, only: %i[ show edit update destroy ]
-
+  class InvoicesController < InternalController
     def index
       @invoices = Invoice.all
     end
 
     def show
+      response = InvoiceManager::FindInvoice.call(current_user, params[:id])
+
+      if response.status
+        @invoice = response.payload
+      else
+        redirect_to internal_invoices_path, alert: response.message
+      end
     end
 
     def new
@@ -14,40 +19,51 @@ module Internal
     end
 
     def edit
+      response = InvoiceManager::FindInvoice.call(current_user, params[:id])
+
+      if response.status
+        @invoice = response.payload
+      else
+        redirect_to internal_invoices_path, alert: response.message
+      end
     end
 
     def create
-      @invoice = current_user.invoices.build(invoice_params)
+      create_invoice_response = InvoiceManager::CreateInvoice.call(current_user, invoice_params)
 
-      if @invoice.save
-        redirect_to internal_invoice_path(@invoice), notice: 'Invoice sent to informed emails.'
+      if create_invoice_response.status
+        redirect_to internal_invoice_path(create_invoice_response.payload), notice: create_invoice_response.message
       else
+        @invoice = create_invoice_response.payload
+
         render :new, status: :unprocessable_entity
       end
     end
 
     def update
-      if @invoice.update(invoice_params)
-        redirect_to internal_invoice_path(@invoice), notice: "Invoice was successfully updated."
+      response = InvoiceManager::UpdateInvoice.call(current_user, params[:id], invoice_params)
+
+      if response.status
+        redirect_to internal_invoice_path(response.payload), notice: response.message
       else
+        @invoice = response.payload
+
         render :edit, status: :unprocessable_entity
       end
     end
 
     def destroy
-      @invoice.destroy
+      response = InvoiceManager::DeleteInvoice.call(current_user, params[:id])
 
-      redirect_to internal_invoices_path, notice: "Invoice was successfully destroyed."
+      key = response.status ? :notice : :alert
+
+      redirect_to internal_invoices_path, key => response.message
     end
 
     private
 
-    def set_invoice
-      @invoice = Invoice.find(params[:id])
-    end
-
     def invoice_params
-      params.require(:invoice).permit(:number, :date, :company, :billing_for, :total, :emails)
+      params.require(:invoice).permit(:id, :number, :date, :company, :billing_for, :total, :emails)
     end
   end
 end

@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   before_action :logged_redirect_to, only: :new, if: :signed_in?
 
   def create
-    user = authenticate
+    user = env['warden'].authenticate
 
     if user
       redirect_to internal_invoices_path

@@ -4,6 +4,7 @@ RSpec.describe '/internal/invoices', type: :request do
   include Warden::Test::Helpers
 
   let(:user) { create(:user) }
+  let!(:invoice) { create(:invoice, user: user) }
 
   let(:valid_attributes) do
     {
@@ -27,7 +28,9 @@ RSpec.describe '/internal/invoices', type: :request do
     }
   end
 
-  let!(:invoice) { create(:invoice) }
+  before do
+    login_as user
+  end
 
   describe 'GET /index' do
     before do
@@ -44,16 +47,52 @@ RSpec.describe '/internal/invoices', type: :request do
   end
 
   describe 'GET /show' do
-    before do
-      get internal_invoice_url(invoice)
+    context 'with a valid invoice for user' do
+      before do
+        get internal_invoice_url(invoice)
+      end
+
+      it 'renders a successful response' do
+        expect(response).to be_successful
+      end
+
+      it 'renders template show' do
+        expect(response).to render_template('internal/invoices/show')
+      end
     end
 
-    it 'renders a successful response' do
-      expect(response).to be_successful
+    context 'with an invoice from another user' do
+      let(:invoice_2) { create(:invoice) }
+
+      before do
+        get internal_invoice_url(invoice_2)
+      end
+
+      it 'redirects to the index page' do
+        expect(response).to redirect_to(internal_invoices_url)
+      end
+
+      it 'expects to have an error message' do
+        follow_redirect!
+
+        expect(response.body).to include('Invoice not found.')
+      end
     end
 
-    it 'renders template show' do
-      expect(response).to render_template('internal/invoices/show')
+    context 'with an invalid invoice' do
+      before do
+        get internal_invoice_path(1000)
+      end
+
+      it 'redirects to the index page' do
+        expect(response).to redirect_to(internal_invoices_url)
+      end
+
+      it 'expects to have an error message' do
+        follow_redirect!
+
+        expect(response.body).to include('Invoice not found.')
+      end
     end
   end
 
@@ -72,26 +111,56 @@ RSpec.describe '/internal/invoices', type: :request do
   end
 
   describe 'GET /edit' do
-    before do
-      get edit_internal_invoice_url(invoice)
+    context 'with a valid invoice for user' do
+      before do
+        get edit_internal_invoice_url(invoice)
+      end
+
+      it 'render a successful response' do
+        expect(response).to be_successful
+      end
+
+      it 'renders template edit' do
+        expect(response).to render_template('internal/invoices/edit')
+      end
     end
 
-    it 'render a successful response' do
-      expect(response).to be_successful
+    context 'with an invoice from another user' do
+      let(:invoice_2) { create(:invoice) }
+
+      before do
+        get edit_internal_invoice_url(invoice_2)
+      end
+
+      it 'redirects to the index page' do
+        expect(response).to redirect_to(internal_invoices_url)
+      end
+
+      it 'expects to have an error message' do
+        follow_redirect!
+
+        expect(response.body).to include('Invoice not found.')
+      end
     end
 
-    it 'renders template edit' do
-      expect(response).to render_template('internal/invoices/edit')
+    context 'with an invalid invoice' do
+      before do
+        get edit_internal_invoice_path(1000)
+      end
+
+      it 'redirects to the index page' do
+        expect(response).to redirect_to(internal_invoices_url)
+      end
+
+      it 'expects to have an error message' do
+        follow_redirect!
+
+        expect(response.body).to include('Invoice not found.')
+      end
     end
   end
 
   describe 'POST /create' do
-    let(:user) { create(:user) }
-
-    before do
-      login_as user
-    end
-
     context 'with valid parameters' do
       it 'creates a new Invoice' do
         expect {
