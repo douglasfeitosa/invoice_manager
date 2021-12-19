@@ -5,7 +5,7 @@ RSpec.describe '/sessions', type: :request do
 
   let(:user) { create(:user) }
 
-  describe 'GET /sessions/new' do
+  describe 'GET /new' do
     context 'when access login page' do
       it 'expects to render template new' do
         get new_sessions_path
@@ -32,7 +32,7 @@ RSpec.describe '/sessions', type: :request do
     end
   end
 
-  describe 'POST /sessions' do
+  describe 'POST /create' do
     before do
       post sessions_path, params: { user: { token: token } }
       follow_redirect!
@@ -59,7 +59,7 @@ RSpec.describe '/sessions', type: :request do
     end
   end
 
-  describe 'DELETE /sessions' do
+  describe 'DELETE /destroy' do
     context 'when already logged in' do
       before do
         login_as user

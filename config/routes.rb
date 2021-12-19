@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
   resource :sessions, only: [:new, :create, :destroy]
 
-  scope 'internal' do
-    get 'home', to: 'internal/home#index'
+  namespace :internal do
+    resources :invoices
   end
 
   root 'application#index'

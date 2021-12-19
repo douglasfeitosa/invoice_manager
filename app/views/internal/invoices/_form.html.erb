@@ -1,0 +1,45 @@
+<%= form_with(model: invoice, url: internal_invoices_path, method: :post, local: true) do |form| %>
+  <% if invoice.errors.any? %>
+    <div>
+      <ul>
+        <% invoice.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :number %>
+    <%= form.text_field :number %>
+  </div>
+
+  <div>
+    <%= form.label :date %>
+    <%= form.datetime_select :date %>
+  </div>
+
+  <div>
+    <%= form.label :company %>
+    <%= form.text_area :company %>
+  </div>
+
+  <div>
+    <%= form.label :billing_for %>
+    <%= form.text_area :billing_for %>
+  </div>
+
+  <div>
+    <%= form.label :total %>
+    <%= form.text_field :total %>
+  </div>
+
+  <div>
+    <%= form.label :emails %>
+    <%= form.text_area :emails %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

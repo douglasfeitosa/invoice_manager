@@ -1,11 +1,11 @@
 class SessionsController < ApplicationController
-  before_action :redirect_to_welcome, only: :new, if: :signed_in?
+  before_action :logged_redirect_to, only: :new, if: :signed_in?
 
   def create
-    user = env['warden'].authenticate
+    user = authenticate
 
     if user
-      redirect_to home_path
+      redirect_to internal_invoices_path
     else
       flash[:alert] = env['warden'].message
       redirect_to new_sessions_path
@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
 
   private
 
-  def redirect_to_welcome
-    redirect_to home_path
+  def logged_redirect_to
+    redirect_to internal_invoices_path
   end
 end
