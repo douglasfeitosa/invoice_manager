@@ -8,6 +8,4 @@ Rails.application.routes.draw do
   end
 
   root 'application#index'
-
-  match "*" => "application#not_found", via: [:get, :post, :patch, :put, :delete]
 end
