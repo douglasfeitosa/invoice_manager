@@ -37,3 +37,6 @@ In order to run the project, you need:
   * Run `redis-server` in terminal
   * Run `bundle exec sidekiq` in another terminal
   * Run `rails s -p 3000` to start server
+
+* API
+  * See more https://invoicemanager2.docs.apiary.io/
