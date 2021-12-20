@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :invoice do
     user { create(:user) }
     number { '123456789' }
-    date { DateTime.new(2021, 12, 18) }
+    date { Date.new(2021, 12, 18) }
     company { 'Husky' }
     billing_for { 'DFG' }
     total { '9.99' }

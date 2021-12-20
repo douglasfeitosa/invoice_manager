@@ -10,7 +10,7 @@ RSpec.describe InvoiceManager::CreateInvoice, type: :service do
       let(:attrs) do
         {
           number: '123456789',
-          date: DateTime.new(2021, 12, 18),
+          date: Date.new(2021, 12, 18),
           company: 'Husky',
           billing_for: 'DFG',
           total: 100.0,
