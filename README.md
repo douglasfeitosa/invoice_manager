@@ -14,6 +14,7 @@ In order to run the project, you need:
   * `Postgresql`
     * If using linux attempts for run `sudo apt install postgresql-contrib libpq-dev` before continue
   * `Redis`
+    * Run `sudo apt install redis-server`
 
 * Configuration
   * Run `bundle install` in app folder
