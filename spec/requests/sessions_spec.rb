@@ -70,11 +70,41 @@ RSpec.describe '/sessions', type: :request do
       end
 
       it 'expects to render template new' do
-        expect(response).to render_template('application/index')
+        expect(response).to render_template('application/root')
       end
 
       it 'expects to have message' do
         expect(response.body).to include('Logged out!')
+      end
+    end
+  end
+
+  describe 'GET /token' do
+    context 'when given valid token' do
+      let(:user) { create(:user) }
+
+      before do
+        get token_sessions_path(token: user.email_token)
+      end
+
+      it 'expects to log in' do
+        follow_redirect!
+
+        expect(response).to render_template('internal/invoices/index')
+      end
+    end
+
+    context 'when given invalid token' do
+      let(:user) { create(:user) }
+
+      before do
+        get token_sessions_path(token: '')
+      end
+
+      it 'expects to not log in' do
+        follow_redirect!
+
+        expect(response.body).to include('User not found.')
       end
     end
   end

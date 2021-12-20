@@ -1,13 +1,5 @@
 <%= form_with(model: invoice, url: internal_invoices_path, method: :post, local: true) do |form| %>
-  <% if invoice.errors.any? %>
-    <div>
-      <ul>
-        <% invoice.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'layouts/errors', errors: invoice.errors %>
 
   <div>
     <%= form.label :number %>
