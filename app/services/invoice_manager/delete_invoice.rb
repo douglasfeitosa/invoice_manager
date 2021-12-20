@@ -6,21 +6,23 @@ module InvoiceManager
     end
 
     def call
-      fetch_invoice
+      return @response unless fetch_invoice
 
       if @invoice.destroy
         respond_with(true, MESSAGE => "Invoice was successfully destroyed.")
       else
         respond_with(false, MESSAGE => "Invoice could not be destroyed.")
       end
-    rescue ActiveRecord::RecordNotFound
-      respond_with(false, MESSAGE => "Invoice not found.")
     end
 
     private
 
     def fetch_invoice
-      @invoice = @user.invoices.find(@id)
+      @response = FindInvoice.call(@user, @id)
+
+      return false unless @response.status
+
+      @invoice = @response.payload
     end
   end
 end

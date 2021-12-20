@@ -7,7 +7,8 @@ module InvoiceManager
     end
 
     def call
-      fetch_invoice
+      return @response unless fetch_invoice
+
       fetch_older_emails
 
       if @invoice.update(@attrs)
@@ -17,14 +18,16 @@ module InvoiceManager
       else
         respond_with(false, PAYLOAD => @invoice)
       end
-    rescue ActiveRecord::RecordNotFound
-      respond_with(false, MESSAGE => "Invoice not found.")
     end
 
     private
 
     def fetch_invoice
-      @invoice = @user.invoices.find(@id)
+      @response = FindInvoice.call(@user, @id)
+
+      return false unless @response.status
+
+      @invoice = @response.payload
     end
 
     def fetch_older_emails
