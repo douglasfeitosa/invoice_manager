@@ -9,6 +9,11 @@
   </head>
 
   <body>
+  <%= link_to 'Logout', sessions_path, method: :delete if signed_in? %>
+
+  <%= flash[:alert] %>
+  <%= flash[:notice] %>
+
     <%= yield %>
 
   <%= javascript_include_tag "application" %>

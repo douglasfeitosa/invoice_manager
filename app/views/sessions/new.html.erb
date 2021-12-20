@@ -1,7 +1,7 @@
 <%= form_for '', url: sessions_path, method: :post do %>
-  <%= flash[:alert] %>
-
   <%= label :user, :token %>
   <%= text_field :user, :token %>
   <%= submit_tag :login %>
 <% end %>
+
+<%= link_to 'Back', root_path %>

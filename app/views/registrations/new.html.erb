@@ -1,0 +1,14 @@
+<%= form_with model: @user, url: registrations_path, method: :post, local: true do |form| %>
+  <%= render 'layouts/errors', errors: @user.errors %>
+
+  <div>
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit :generate %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', root_path %>

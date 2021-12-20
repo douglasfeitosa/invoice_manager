@@ -1,0 +1,7 @@
+<p>Welcome <%= @user.email %></p>
+
+<p>Your access token is <%= @user.token %></p>
+
+<p>Click on the link bellow to access the system.</p>
+
+<p><%= link_to 'Click here', sessions_url(user: { token: @user.token }) %></p>

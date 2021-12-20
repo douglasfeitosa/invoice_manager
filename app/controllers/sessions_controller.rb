@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :logged_redirect_to, only: :new, if: :signed_in?
+  before_action :logged_redirect_to, except: :destroy, if: :signed_in?
 
   def create
     user = warden.authenticate
@@ -15,12 +15,18 @@ class SessionsController < ApplicationController
   def destroy
     warden.logout
 
-    redirect_to root_url, notice: "Logged out!"
+    redirect_to root_url, notice: 'Logged out!'
   end
 
-  private
+  def token
+    response = UserManager::ConsumeToken.call(params[:token])
 
-  def logged_redirect_to
-    redirect_to internal_invoices_path
+    if response.status
+      warden.set_user(response.payload)
+
+      redirect_to internal_invoices_path
+    else
+      redirect_to new_sessions_path, alert: response.message
+    end
   end
 end
