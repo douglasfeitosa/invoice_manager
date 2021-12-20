@@ -22,7 +22,7 @@ RSpec.describe '/sessions', type: :request do
 
     context 'when already logged in' do
       it 'expects to redirect to template index' do
-        login_as user
+        login_as user, scope: :internal
 
         get new_sessions_path
         follow_redirect!
@@ -62,7 +62,7 @@ RSpec.describe '/sessions', type: :request do
   describe 'DELETE /destroy' do
     context 'when already logged in' do
       before do
-        login_as user
+        login_as user, scope: :internal
 
         delete sessions_path
 

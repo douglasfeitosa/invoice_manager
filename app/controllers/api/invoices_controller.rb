@@ -3,7 +3,7 @@ module API
     def index
       @invoices = InvoiceManager::ListInvoice.call(current_user, params[:filter]).payload
 
-      render template: 'api/views/invoices/index.json.jbuilder'
+      render template: 'api/invoices/index.json.jbuilder'
     end
 
     def show
@@ -12,7 +12,7 @@ module API
       if response.status
         @invoice = response.payload
 
-        render template: 'api/views/invoices/show.json.jbuilder'
+        render template: 'api/invoices/show.json.jbuilder'
       else
         render json: { error: response.message }, status: :not_found
       end
@@ -24,7 +24,7 @@ module API
       if response.status
         @invoice = response.payload
 
-        render template: 'api/views/invoices/show.json.jbuilder'
+        render template: 'api/invoices/show.json.jbuilder'
       else
         render json: { errors: response.error }, status: :unprocessable_entity
       end
@@ -36,7 +36,7 @@ module API
       if response.status
         @invoice = response.payload
 
-        render template: 'api/views/invoices/show.json.jbuilder'
+        render template: 'api/invoices/show.json.jbuilder'
       elsif response.error
         render json: { errors: response.error }, status: :unprocessable_entity
       else
