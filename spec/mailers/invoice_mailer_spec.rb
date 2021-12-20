@@ -19,6 +19,16 @@ RSpec.describe InvoiceMailer, type: :mailer do
       expect(mail.from).to eq(['invoicemanagerapplication@gmail.com'])
     end
 
+    it 'attaches one attachment' do
+      expect(mail.attachments.length).to eq(1)
+    end
+
+    it 'attaches invoice.pdf' do
+      attachment = mail.attachments[0]
+
+      expect(attachment.filename).to eq('invoice.pdf')
+    end
+
     it 'expects render invoice number on email' do
       expect(mail.body.encoded).to match(invoice.number)
     end

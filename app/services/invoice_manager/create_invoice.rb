@@ -24,7 +24,7 @@ module InvoiceManager
     end
 
     def send_email
-      SendInvoice.call(@invoice)
+      SendInvoice.call(@invoice, @invoice.splitted_emails)
     end
   end
 end
