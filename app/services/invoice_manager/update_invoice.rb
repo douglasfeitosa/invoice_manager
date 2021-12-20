@@ -16,7 +16,7 @@ module InvoiceManager
 
         respond_with(true, PAYLOAD => @invoice, MESSAGE => 'Invoice was successfully updated.')
       else
-        respond_with(false, PAYLOAD => @invoice)
+        respond_with(false, PAYLOAD => @invoice, ERROR => @invoice.errors)
       end
     end
 

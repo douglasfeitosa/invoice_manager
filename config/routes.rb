@@ -14,6 +14,20 @@ Rails.application.routes.draw do
     get '/token', as: :token, action: :token
   end
 
+  namespace :api, :defaults => { :format => 'json' } do
+    constraints format: :json do
+      get '/', to: 'api#root'
+
+      resources :invoices do
+        member do
+          post :send_email
+        end
+      end
+    end
+
+    match '*unmatched', to: 'api#not_found', via: :all
+  end
+
   namespace :internal do
     resources :invoices
   end

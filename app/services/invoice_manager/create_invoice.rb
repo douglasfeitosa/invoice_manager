@@ -13,7 +13,7 @@ module InvoiceManager
 
         respond_with(true, PAYLOAD => @invoice, MESSAGE => 'Invoice sent to informed emails.')
       else
-        respond_with(false, PAYLOAD => @invoice)
+        respond_with(false, PAYLOAD => @invoice, ERROR => @invoice.errors)
       end
     end
 

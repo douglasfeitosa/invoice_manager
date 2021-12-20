@@ -37,12 +37,12 @@ module Internal
     end
 
     def create
-      create_invoice_response = InvoiceManager::CreateInvoice.call(current_user, invoice_params)
+      response = InvoiceManager::CreateInvoice.call(current_user, invoice_params)
 
-      if create_invoice_response.status
-        redirect_to internal_invoice_path(create_invoice_response.payload), notice: create_invoice_response.message
+      if response.status
+        redirect_to internal_invoice_path(response.payload), notice: response.message
       else
-        @invoice = create_invoice_response.payload
+        @invoice = response.payload
 
         render :new, status: :unprocessable_entity
       end
@@ -53,12 +53,10 @@ module Internal
 
       if response.status
         redirect_to internal_invoice_path(response.payload), notice: response.message
-      elsif response.payload
+      else
         @invoice = response.payload
 
         render :edit, status: :unprocessable_entity
-      else
-        redirect_to internal_invoices_path, alert: response.message
       end
     end
 

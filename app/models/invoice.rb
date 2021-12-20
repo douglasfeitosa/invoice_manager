@@ -14,7 +14,7 @@ class Invoice < ApplicationRecord
 
   def validate_emails
     if splitted_emails.any? { |email| !EMAIL_FORMAT.match?(email) }
-      errors.add(:email, 'There\'s an invalid email')
+      errors.add(:emails, 'There\'s an invalid email')
     end
   end
 end
