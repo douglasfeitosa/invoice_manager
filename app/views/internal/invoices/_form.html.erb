@@ -1,37 +1,37 @@
 <%= form_with(model: invoice, url: internal_invoices_path, method: :post, local: true) do |form| %>
   <%= render 'layouts/errors', errors: invoice.errors %>
 
-  <div>
-    <%= form.label :number %>
-    <%= form.text_field :number %>
+  <div class="mb-3">
+    <%= form.label :number, class: 'form-label' %>
+    <%= form.text_field :number, class: 'form-control' %>
   </div>
 
-  <div>
-    <%= form.label :date %>
-    <%= form.text_field :date, class: 'datepicker' %>
+  <div class="mb-3">
+    <%= form.label :date, class: 'form-label' %>
+    <%= form.text_field :date, class: 'datepicker form-control' %>
   </div>
 
-  <div>
-    <%= form.label :company %>
-    <%= form.text_area :company %>
+  <div class="mb-3">
+    <%= form.label :company, class: 'form-label' %>
+    <%= form.text_area :company, class: 'form-control' %>
   </div>
 
-  <div>
-    <%= form.label :billing_for %>
-    <%= form.text_area :billing_for %>
+  <div class="mb-3">
+    <%= form.label :billing_for, class: 'form-label' %>
+    <%= form.text_area :billing_for, class: 'form-control' %>
   </div>
 
-  <div>
-    <%= form.label :total %>
-    <%= form.text_field :total %>
+  <div class="mb-3">
+    <%= form.label :total, class: 'form-label' %>
+    <%= form.text_field :total, class: 'form-control' %>
   </div>
 
-  <div>
-    <%= form.label :emails %>
-    <%= form.text_area :emails %>
+  <div class="mb-3">
+    <%= form.label :emails, class: 'form-label' %>
+    <%= form.text_area :emails, class: 'form-control' %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :submit, class: 'btn btn-primary mb-3' %>
   </div>
 <% end %>

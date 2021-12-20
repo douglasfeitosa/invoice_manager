@@ -1,35 +1,63 @@
-<p><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-lg-4 order-md-last">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-primary">Invoice</span>
+      </h4>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">Number:</h6>
+            <small class="text-muted"><%= @invoice.number %></small>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">Date:</h6>
+            <small class="text-muted"><%= @invoice.date %></small>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">Company:</h6>
+            <small class="text-muted"><%= @invoice.company %></small>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">Billing for:</h6>
+            <small class="text-muted"><%= @invoice.billing_for %></small>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">Total:</h6>
+            <small class="text-muted"><%= @invoice.total %></small>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">Emails:</h6>
+            <small class="text-muted"><%= @invoice.splitted_emails.join("<br>") %></small>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-<p>
-  <strong>Number:</strong>
-  <%= @invoice.number %>
-</p>
+  <div class="row">
+    <ul class="list-group list-group-horizontal">
+      <li class="list-group-item">
+        <%= link_to 'Download', internal_invoice_path(@invoice, format: :pdf), target: '_blank' %>
+      </li>
+      <li class="list-group-item">
+        <%= link_to 'Edit', edit_internal_invoice_path(@invoice) %>
+      </li>
+      <li class="list-group-item">
+        <%= link_to 'Back', internal_invoices_path %>
+      </li>
+    </ul>
+  </div>
+</div>
 
-<p>
-  <strong>Date:</strong>
-  <%= @invoice.date %>
-</p>
 
-<p>
-  <strong>Company:</strong>
-  <%= @invoice.company %>
-</p>
-
-<p>
-  <strong>Billing for:</strong>
-  <%= @invoice.billing_for %>
-</p>
-
-<p>
-  <strong>Total:</strong>
-  <%= @invoice.total %>
-</p>
-
-<p>
-  <strong>Emails:</strong>
-  <%= @invoice.emails %>
-</p>
-
-<%= link_to 'Download', internal_invoice_path(@invoice, format: :pdf), target: '_blank' %> |
-<%= link_to 'Edit', edit_internal_invoice_path(@invoice) %> |
-<%= link_to 'Back', internal_invoices_path %>

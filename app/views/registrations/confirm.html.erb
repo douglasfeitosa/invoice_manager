@@ -1,4 +1,12 @@
-<p>The user <%= @user.email %> has already an account. Do you want generate another token?</p>
+<div class="container">
+  <h1 class="h3 mb-3 fw-normal">Confirm Generate Token</h1>
 
-<%= link_to 'Yes', generate_registrations_path(email: params[:email]) %>
-<%= link_to 'No', new_registrations_path %>
+  <div class="row">
+    <div class="alert alert-secondary" role="alert">
+      The user <b><%= @user.email %></b> has already an account. Do you want generate another token?
+    </div>
+
+    <%= link_to 'yes', generate_registrations_path(email: params[:email]), class: 'w-100 btn btn-lg btn-danger' %>
+    <%= link_to 'no', new_registrations_path, class: 'w-100 btn btn-lg btn-warning' %>
+  </div>
+</div>

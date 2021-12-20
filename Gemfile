@@ -17,6 +17,9 @@ gem "dotenv-rails", "~> 2.7"
 gem "wicked_pdf", "~> 2.1"
 gem "wkhtmltopdf-binary", "~> 0.12.6"
 gem "webpacker", "~> 5.4"
+gem "pdf-inspector", "~> 1.3"
+gem "jquery-ui-rails", "~> 6.0"
+gem 'bootstrap', '~> 5.1', '>= 5.1.3'
 
 group :development do
   gem "better_errors", "~> 2.9"
@@ -48,6 +51,3 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem "pdf-inspector", "~> 1.3"
-
-gem "jquery-ui-rails", "~> 6.0"
