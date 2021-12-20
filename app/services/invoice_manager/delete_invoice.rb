@@ -9,9 +9,9 @@ module InvoiceManager
       return @response unless fetch_invoice
 
       if @invoice.destroy
-        respond_with(true, MESSAGE => "Invoice was successfully destroyed.")
+        respond_with(true, MESSAGE => 'Invoice was successfully destroyed.')
       else
-        respond_with(false, MESSAGE => "Invoice could not be destroyed.")
+        respond_with(false, MESSAGE => 'Invoice could not be destroyed.')
       end
     end
 

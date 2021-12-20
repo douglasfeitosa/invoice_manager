@@ -16,7 +16,7 @@ RSpec.describe '/registrations', type: :request do
 
     context 'when already logged in' do
       it 'expects to redirect to template index' do
-        login_as user
+        login_as user, scope: :internal
 
         get new_registrations_path
 
@@ -30,7 +30,7 @@ RSpec.describe '/registrations', type: :request do
   describe 'GET /create' do
     context 'when already logged in' do
       it 'expects to redirect to template index' do
-        login_as user
+        login_as user, scope: :internal
 
         post registrations_path(email: 'douglasfeitosa@outlook.com')
 

@@ -1,21 +1,17 @@
 class ApplicationController < ActionController::Base
   before_action :logged_redirect_to, only: :root, if: :signed_in?
-
   helper_method :signed_in?, :current_user
 
-  def root
-  end
-
   def signed_in?
-    !current_user.nil?
+    warden.authenticated?(:internal)
   end
 
   def current_user
-    warden.user
+    warden.user(:internal)
   end
 
   def authenticate!
-    warden.authenticate!
+    warden.authenticate!(scope: :internal, store: true)
   end
 
   def warden
@@ -24,6 +20,9 @@ class ApplicationController < ActionController::Base
 
   def env
     request.env
+  end
+
+  def root
   end
 
   private

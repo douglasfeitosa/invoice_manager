@@ -29,7 +29,7 @@ RSpec.describe '/internal/invoices', type: :request do
   end
 
   before do
-    login_as user
+    login_as user, scope: :internal
   end
 
   describe 'GET /index' do

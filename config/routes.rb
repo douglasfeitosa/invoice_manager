@@ -14,6 +14,18 @@ Rails.application.routes.draw do
     get '/token', as: :token, action: :token
   end
 
+  namespace :api do
+    get '/', to: 'api/api#root'
+
+    resources :invoices do
+      member do
+        get :send_email
+      end
+    end
+
+    match '*unmatched', to: 'api/api#not_found', via: :all
+  end
+
   namespace :internal do
     resources :invoices
   end

@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   before_action :logged_redirect_to, except: :destroy, if: :signed_in?
 
   def create
-    user = warden.authenticate
+    user = warden.authenticate(scope: :internal)
 
     if user
       redirect_to internal_invoices_path
@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    warden.logout
+    warden.logout(:internal)
 
     redirect_to root_url, notice: 'Logged out!'
   end
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
     response = UserManager::ConsumeToken.call(params[:token])
 
     if response.status
-      warden.set_user(response.payload)
+      warden.set_user(response.payload, scope: :internal)
 
       redirect_to internal_invoices_path
     else
