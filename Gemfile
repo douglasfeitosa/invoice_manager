@@ -49,3 +49,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "pdf-inspector", "~> 1.3"
+
+gem "jquery-ui-rails", "~> 6.0"

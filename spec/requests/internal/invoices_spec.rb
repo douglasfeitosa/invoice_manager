@@ -33,26 +33,52 @@ RSpec.describe '/internal/invoices', type: :request do
   end
 
   describe 'GET /index' do
-    let!(:invoice_2) { create(:invoice, number: '987654321') }
+    context 'when has filter' do
+      let!(:invoice_2) { create(:invoice, user: user, number: '987654321') }
 
-    before do
-      get internal_invoices_url
+      before do
+        get internal_invoices_url(filter: { number: '987654321' })
+      end
+
+      it 'renders a successful response' do
+        expect(response).to be_successful
+      end
+
+      it 'renders template index' do
+        expect(response).to render_template('internal/invoices/index')
+      end
+
+      it 'expects to show invoice 2' do
+        expect(response.body).to include invoice_2.number
+      end
+
+      it 'expects to not show invoice' do
+        expect(response.body).not_to include invoice.number
+      end
     end
 
-    it 'renders a successful response' do
-      expect(response).to be_successful
-    end
+    context 'when has no filter' do
+      let!(:invoice_2) { create(:invoice, number: '987654321') }
 
-    it 'renders template index' do
-      expect(response).to render_template('internal/invoices/index')
-    end
+      before do
+        get internal_invoices_url
+      end
 
-    it 'expects to show invoice' do
-      expect(response.body).to include invoice.number
-    end
+      it 'renders a successful response' do
+        expect(response).to be_successful
+      end
 
-    it 'expects to not show invoice 2' do
-      expect(response.body).not_to include invoice_2.number
+      it 'renders template index' do
+        expect(response).to render_template('internal/invoices/index')
+      end
+
+      it 'expects to show invoice' do
+        expect(response.body).to include invoice.number
+      end
+
+      it 'expects to not show invoice 2' do
+        expect(response.body).not_to include invoice_2.number
+      end
     end
   end
 
