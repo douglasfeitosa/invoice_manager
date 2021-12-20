@@ -15,6 +15,12 @@ RSpec.describe Invoice, type: :model do
     it { should validate_presence_of(:total) }
     it { should validate_presence_of(:emails) }
 
+    context '.splitted_emails' do
+      it 'expects to split string by line break into an array' do
+        expect(invoice.splitted_emails).to match(['douglasfeitosa@outlook.com'])
+      end
+    end
+
     context '.validate_emails' do
       it 'expects to be valid with valid emails' do
         expect(invoice.valid?).to be_truthy

@@ -1,11 +1,12 @@
 module InvoiceManager
   class SendInvoice < ApplicationService
-    def initialize(invoice)
+    def initialize(invoice, emails)
       @invoice = invoice
+      @emails = emails
     end
 
     def call
-      @invoice.splitted_emails.each do |email|
+      @emails.each do |email|
         InvoiceMailer.invoice(@invoice, email).deliver_later
       end
     end

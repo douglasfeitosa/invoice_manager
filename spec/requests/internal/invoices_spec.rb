@@ -198,11 +198,14 @@ RSpec.describe '/internal/invoices', type: :request do
         expect(response.body).to include('Invoice sent to informed emails.')
       end
 
-      it 'sends an email' do
+      it 'expects to deliver one email' do
         ActiveJob::Base.queue_adapter = :test
 
-        expect { post internal_invoices_url, params: { invoice: valid_attributes }
-        }.to have_enqueued_job.on_queue('mailers')
+        expect do
+          perform_enqueued_jobs do
+            post internal_invoices_url, params: { invoice: valid_attributes }
+          end
+        end.to change { ActionMailer::Base.deliveries.size }.by(1)
       end
     end
 
@@ -224,22 +227,44 @@ RSpec.describe '/internal/invoices', type: :request do
   describe 'PATCH /update' do
     context 'with a valid invoice for user' do
       context 'with valid parameters' do
-        let(:new_attributes) { { number: '123456789' } }
-
-        before do
-          patch internal_invoice_url(invoice), params: { invoice: new_attributes }
-
-          invoice.reload
+        let(:invoice) { create(:invoice, user: user, emails: "douglasfeitosa@outlook.com\ninvoicemanagerapplication@gmail.com") }
+        let(:new_attributes) do
+          {
+            number: '123456789',
+            emails: "douglasfeitosa@outlook.com\ndouglas_fg@hotmail.com\ndfeitosagoncalves@gmail.com"
+          }
         end
 
         it 'redirects to the invoice' do
+          ActiveJob::Base.queue_adapter = :test
+
+          patch internal_invoice_url(invoice), params: { invoice: new_attributes }
+
+          invoice.reload
+
           expect(response).to redirect_to(internal_invoice_url(invoice))
         end
 
         it 'renders template show' do
+          ActiveJob::Base.queue_adapter = :test
+
+          patch internal_invoice_url(invoice), params: { invoice: new_attributes }
+
+          invoice.reload
+
           follow_redirect!
 
           expect(response).to render_template('internal/invoices/show')
+        end
+
+        it 'expects to deliver two emails' do
+          ActiveJob::Base.queue_adapter = :test
+
+          expect do
+            perform_enqueued_jobs do
+              patch internal_invoice_url(invoice), params: { invoice: new_attributes }
+            end
+          end.to change { ActionMailer::Base.deliveries.size }.by(2)
         end
       end
 
