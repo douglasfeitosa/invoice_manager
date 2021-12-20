@@ -13,7 +13,7 @@ module Internal
         respond_to do |format|
           format.html { render :show }
           format.pdf do
-            render pdf: 'invoice.pdf', layout: "application.pdf.erb"
+            render pdf: 'invoice.pdf', layout: 'application.pdf.erb'
           end
         end
 
