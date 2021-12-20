@@ -1,7 +1,7 @@
 module Internal
   class InvoicesController < InternalController
     def index
-      @invoices = Invoice.all
+      @invoices = InvoiceManager::ListInvoice.call(current_user).payload
     end
 
     def show

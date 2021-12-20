@@ -33,6 +33,8 @@ RSpec.describe '/internal/invoices', type: :request do
   end
 
   describe 'GET /index' do
+    let!(:invoice_2) { create(:invoice, number: '987654321') }
+
     before do
       get internal_invoices_url
     end
@@ -43,6 +45,14 @@ RSpec.describe '/internal/invoices', type: :request do
 
     it 'renders template index' do
       expect(response).to render_template('internal/invoices/index')
+    end
+
+    it 'expects to show invoice' do
+      expect(response.body).to include invoice.number
+    end
+
+    it 'expects to not show invoice 2' do
+      expect(response.body).not_to include invoice_2.number
     end
   end
 
