@@ -7,7 +7,7 @@ class Invoice < ApplicationRecord
   validate :validate_emails
 
   def splitted_emails
-    emails.to_s.split("\n")
+    emails.to_s.split(/[\r\n]+/)
   end
 
   private

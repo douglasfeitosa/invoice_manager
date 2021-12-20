@@ -90,7 +90,7 @@ RSpec.describe '/registrations', type: :request do
       end
 
       it 'expects to have message' do
-        expect(response.body).to include("The user #{user.email} has already an account. Do you want generate another token?")
+        expect(response.body).to include("The user <b>#{user.email}</b> has already an account. Do you want generate another token?")
       end
     end
 

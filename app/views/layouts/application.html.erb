@@ -9,10 +9,31 @@
   </head>
 
   <body>
-  <%= link_to 'Logout', sessions_path, method: :delete if signed_in? %>
+    <% if signed_in? %>
+      <div class="container">
+        <header class="d-flex justify-content-center py-3">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <%= link_to 'Logout', sessions_path, method: :delete, class: 'nav-link active' %>
+            </li>
+          </ul>
+        </header>
+      </div>
+    <% end %>
 
-  <%= flash[:alert] %>
-  <%= flash[:notice] %>
+    <div class="container">
+      <% if flash[:alert] %>
+        <div class="alert alert-danger" role="alert">
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
+
+      <% if flash[:notice] %>
+        <div class="alert alert-success" role="alert">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+    </div>
 
     <%= yield %>
 
